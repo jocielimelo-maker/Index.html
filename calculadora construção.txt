@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculadora de Materiais</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+margin:0;
+background:#ffffff;
+color:#333;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:50%;
+left:50%;
+width:350px;
+height:350px;
+background:url("logo.png") center/contain no-repeat;
+opacity:0.08;
+transform:translate(-50%,-50%);
+z-index:-1;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+text-align:center;
+font-size:24px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+button{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#1f4e79;
+color:white;
+cursor:pointer;
+font-size:15px;
+}
+
+.card{
+margin-top:20px;
+padding:20px;
+border-radius:12px;
+box-shadow:0 0 10px #ccc;
+}
+
+input, select{
+
+width:100%;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+border:1px solid #bbb;
+
+}
+
+.resultado{
+
+margin-top:15px;
+padding:12px;
+background:#f1f1f1;
+border-radius:8px;
+font-weight:bold;
+
+}
+
+footer{
+
+text-align:center;
+margin-top:40px;
+padding:20px;
+font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>Calculadora de Materiais</h1>
+
+
+<div class="menu">
+
+<button onclick="mostrar('tabua')">Tábuas</button>
+
+<button onclick="mostrar('aco')">Vergalhões</button>
+
+<button onclick="mostrar('brita')">Brita</button>
+
+<button onclick="mostrar('areia')">Areia</button>
+
+</div>
+
+
+<!-- TÁBUAS -->
+
+<div id="tabua" class="card">
+
+
+<h2>Tábuas</h2>
+
+
+<h3>Quantidade de tábuas em 1 m³</h3>
+
+
+<input id="larg" placeholder="Largura (cm)">
+
+<input id="esp" placeholder="Espessura (cm)">
+
+<input id="comp" placeholder="Comprimento (m)">
+
+
+<button onclick="tabuas()">Calcular</button>
+
+
+
+<h3>m³ recebido → quantidade de peças</h3>
+
+
+<input id="volumeTabua" placeholder="Volume recebido (m³)">
+
+
+<button onclick="pecasTabua()">Calcular</button>
+
+
+<div id="rt" class="resultado"></div>
+
+
+</div>
+
+
+
+<!-- VERGALHÕES -->
+
+
+<div id="aco" class="card" style="display:none">
+
+
+<h2>Vergalhões</h2>
+
+
+<select id="diam">
+
+<option value="1.31">CA-60 Ø 4,2 mm</option>
+
+<option value="1.85">CA-60 Ø 5,0 mm</option>
+
+<option value="2.67">CA-60 Ø 6,0 mm</option>
+
+<option value="2.94">CA-50 Ø 6,3 mm</option>
+
+<option value="4.74">CA-50 Ø 8,0 mm</option>
+
+<option value="7.40">CA-50 Ø 10,0 mm</option>
+
+<option value="11.55">CA-50 Ø 12,5 mm</option>
+
+<option value="18.93">CA-50 Ø 16,0 mm</option>
+
+<option value="29.59">CA-50 Ø 20,0 mm</option>
+
+<option value="46.23">CA-50 Ø 25,0 mm</option>
+
+</select>
+
+
+<h3>Converter peso para barras</h3>
+
+
+<input id="pesoAco" placeholder="Peso recebido (kg)">
+
+
+<button onclick="acoKg()">Calcular</button>
+
+
+<h3>Converter barras para peso</h3>
+
+
+<input id="qtdBarras" placeholder="Quantidade de barras de 12 m">
+
+
+<button onclick="acoBarras()">Calcular</button>
+
+
+<div id="ra" class="resultado"></div>
+
+
+</div>
+<!-- BRITA -->
+
+<div id="brita" class="card" style="display:none">
+
+<h2>Brita</h2>
+
+<input id="britaValor" placeholder="Digite toneladas ou m³">
+
+<select id="tipoBrita">
+
+<option value="tm">Toneladas → m³</option>
+
+<option value="mt">m³ → Toneladas</option>
+
+</select>
+
+<button onclick="brita()">Calcular</button>
+
+<div id="rb" class="resultado"></div>
+
+</div>
+
+
+
+<!-- AREIA -->
+
+<div id="areia" class="card" style="display:none">
+
+<h2>Areia</h2>
+
+<input id="areiaValor" placeholder="Digite toneladas ou m³">
+
+<select id="tipoAreia">
+
+<option value="tm">Toneladas → m³</option>
+
+<option value="mt">m³ → Toneladas</option>
+
+</select>
+
+<button onclick="areia()">Calcular</button>
+
+<div id="rr" class="resultado"></div>
+
+</div>
+
+
+
+<footer>
+
+Desenvolvido por<br>
+
+<b>Jocieli Melo</b><br>
+
+Engenheira Civil
+
+</footer>
+
+
+</div>
+
+
+
+<script>
+
+
+function mostrar(id){
+
+document.querySelectorAll('.card').forEach(function(x){
+
+x.style.display="none";
+
+});
+
+document.getElementById(id).style.display="block";
+
+}
+
+
+
+// TÁBUAS - m³ para quantidade em 1m³
+
+function tabuas(){
+
+
+let e=parseFloat(esp.value.replace(",", "."))/100;
+
+let l=parseFloat(larg.value.replace(",", "."))/100;
+
+let c=parseFloat(comp.value.replace(",", "."));
+
+
+let volume=e*l*c;
+
+
+rt.innerHTML=
+
+"Quantidade de tábuas em 1 m³: "+
+
+(1/volume).toFixed(2).replace(".", ",")+
+
+" unidades";
+
+
+}
+
+
+
+// TÁBUAS - volume recebido para peças
+
+function pecasTabua(){
+
+
+let e=parseFloat(esp.value.replace(",", "."))/100;
+
+let l=parseFloat(larg.value.replace(",", "."))/100;
+
+let c=parseFloat(comp.value.replace(",", "."));
+
+
+let volumePeca=e*l*c;
+
+
+let volumeRecebido=parseFloat(volumeTabua.value.replace(",", "."));
+
+
+let quantidade=volumeRecebido/volumePeca;
+
+
+rt.innerHTML=
+
+"Quantidade aproximada: "+
+
+quantidade.toFixed(2).replace(".", ",")+
+
+" peças";
+
+
+}
+
+
+
+// AÇO - kg para barras
+
+function acoKg(){
+
+
+let pesoRecebido=parseFloat(pesoAco.value);
+
+let pesoBarra=parseFloat(diam.value);
+
+
+let barras=pesoRecebido/pesoBarra;
+
+
+ra.innerHTML=
+
+"Peso de uma barra de 12 m: "+
+
+pesoBarra.toFixed(2).replace(".", ",")+
+
+" kg<br><br>"+
+
+"Quantidade aproximada: "+
+
+Math.floor(barras)+
+
+" barras de 12 metros";
+
+
+}
+
+
+
+// AÇO - barras para kg
+
+function acoBarras(){
+
+
+let quantidade=parseFloat(qtdBarras.value);
+
+let pesoBarra=parseFloat(diam.value);
+
+
+let pesoTotal=quantidade*pesoBarra;
+
+
+ra.innerHTML=
+
+"Peso de uma barra de 12 m: "+
+
+pesoBarra.toFixed(2).replace(".", ",")+
+
+" kg<br><br>"+
+
+"Peso total aproximado: "+
+
+pesoTotal.toFixed(2).replace(".", ",")+
+
+" kg";
+
+
+}
+
+
+
+// BRITA
+
+function brita(){
+
+
+let v=parseFloat(britaValor.value.replace(",", "."));
+
+
+if(tipoBrita.value=="tm"){
+
+
+rb.innerHTML=
+
+(v*0.67).toFixed(2).replace(".", ",")+" m³";
+
+
+}else{
+
+
+rb.innerHTML=
+
+(v/0.67).toFixed(2).replace(".", ",")+" toneladas";
+
+
+}
+
+
+}
+
+
+
+// AREIA
+
+function areia(){
+
+
+let v=parseFloat(areiaValor.value.replace(",", "."));
+
+
+if(tipoAreia.value=="tm"){
+
+
+rr.innerHTML=
+
+(v*0.63).toFixed(2).replace(".", ",")+" m³";
+
+
+}else{
+
+
+rr.innerHTML=
+
+(v/0.63).toFixed(2).replace(".", ",")+" toneladas";
+
+
+}
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
