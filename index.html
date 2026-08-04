@@ -298,63 +298,44 @@ document.getElementById(id).style.display="block";
 
 
 
-// TÁBUAS - m³ para quantidade em 1m³
+// TÁBUAS - quantidade em 1 m³
 
 function tabuas(){
 
+let largura = parseFloat(document.getElementById("larg").value.replace(",", "."))/100;
+let espessura = parseFloat(document.getElementById("esp").value.replace(",", "."))/100;
+let comprimento = parseFloat(document.getElementById("comp").value.replace(",", "."));
 
-let e=parseFloat(esp.value.replace(",", "."))/100;
+let volume = largura * espessura * comprimento;
 
-let l=parseFloat(larg.value.replace(",", "."))/100;
+let quantidade = 1 / volume;
 
-let c=parseFloat(comp.value.replace(",", "."));
-
-
-let volume=e*l*c;
-
-
-rt.innerHTML=
-
-"Quantidade de tábuas em 1 m³: "+
-
-(1/volume).toFixed(2).replace(".", ",")+
-
+document.getElementById("rt").innerHTML =
+"Quantidade de tábuas em 1 m³: " +
+quantidade.toFixed(2).replace(".", ",") +
 " unidades";
-
 
 }
 
 
-
-// TÁBUAS - volume recebido para peças
+// TÁBUAS - m³ recebido para quantidade de peças
 
 function pecasTabua(){
 
+let largura = parseFloat(document.getElementById("larg").value.replace(",", "."))/100;
+let espessura = parseFloat(document.getElementById("esp").value.replace(",", "."))/100;
+let comprimento = parseFloat(document.getElementById("comp").value.replace(",", "."));
 
-let e=parseFloat(esp.value.replace(",", "."))/100;
+let volumePeca = largura * espessura * comprimento;
 
-let l=parseFloat(larg.value.replace(",", "."))/100;
+let volumeRecebido = parseFloat(document.getElementById("volumeTabua").value.replace(",", "."));
 
-let c=parseFloat(comp.value.replace(",", "."));
+let quantidade = volumeRecebido / volumePeca;
 
-
-let volumePeca=e*l*c;
-
-
-let volumeRecebido=parseFloat(volumeTabua.value.replace(",", "."));
-
-
-let quantidade=volumeRecebido/volumePeca;
-
-
-rt.innerHTML=
-
-"Quantidade aproximada: "+
-
-quantidade.toFixed(2).replace(".", ",")+
-
+document.getElementById("rt").innerHTML =
+"Quantidade aproximada: " +
+quantidade.toFixed(0) +
 " peças";
-
 
 }
 
